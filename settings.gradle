@@ -1,0 +1,3 @@
+rootProject.name='BriefActions'
+include ':app'
+include ':briefactions'
