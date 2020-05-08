@@ -19,17 +19,17 @@ package com.vladmarkovic.briefactions
  */
 open class ViewModel : androidx.lifecycle.ViewModel() {
 
-    private val mutableNavigationActions = MutableLiveAction<Navigation.Action>()
-    private val mutableDisplayActions = MutableLiveAction<Display.Action>()
+    private val mutableNavigationActions = MutableLiveAction<NavigationAction>()
+    private val mutableDisplayActions = MutableLiveAction<DisplayAction>()
 
-    val navigationActions: LiveAction<Navigation.Action> = mutableNavigationActions
-    val displayActions: LiveAction<Display.Action> = mutableDisplayActions
+    val navigationActions: LiveAction<NavigationAction> = mutableNavigationActions
+    val displayActions: LiveAction<DisplayAction> = mutableDisplayActions
 
-    open fun navigateTo(action: Navigation.Action) {
+    open fun navigateTo(action: NavigationAction) {
         mutableNavigationActions.value = action
     }
 
-    open fun display(action: Display.Action) {
+    open fun display(action: DisplayAction) {
         mutableDisplayActions.value = action
     }
 }
