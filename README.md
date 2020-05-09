@@ -1,6 +1,10 @@
+[![Download](https://img.shields.io/github/package-json/v/vlad-markovic/AndroidBriefActions)](https://bintray.com/vlad-markovic/maven/com.vladmarkovic.briefactions/_latestVersion)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)
+[![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://source.android.com/setup/start/build-numbers)
 
+```groovy
+implementation "com.vladmarkovic.briefactions:briefactions:$briefActionsVersion"
+```
 
 On Android, in combination with LiveData, ViewModel is more than what it might be on some other platforms.
 It also represents an architectural component for easy state management across view lifecycle events.
@@ -14,13 +18,19 @@ to show when we rotate the device, since the value is preserved in LiveData.
 `BriefAction` type represents these actions and in combination with `LiveAction`,
 helper observers, `ViewModel` and the rest of the pattern, enables consuming of such actions only once.
 
-The beauty of this pattern is in its easy use and the way it nicely and intuitively reads.
+The beauty of this pattern is in its easy use and the way it nicely and intuitively reads for initiating display or navigation action from a ViewModel simply by calling:.
+ - `display(ShowMessage(R.string.hello))` or
+ - `navigateTo(SettingsScreen)`
+
+or from Activity / Fragment
+ - `viewModel.display(ShowMessage(R.string.hello))` or
+ - `viewModel.navigateTo(SettingsScreen)`
 
 ##  Use:
 
  - Extend the library ViewModel when you create your view model.
  - Create your BriefActions (inside VM for scoping or outside).
- - Call them with `display` or `navigateTo` functions defined in the ViewModel
+ - Call them with `display` or `navigateTo` functions defined in the ViewModel.  
    You can call them directly from the view model, or from Activity / Fragment.
  - Observe them inside Activity / Fragment.
 

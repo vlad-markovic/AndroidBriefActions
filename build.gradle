@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
@@ -25,7 +27,7 @@ allprojects {
 
 ext.lib = [
         'package': "com.vladmarkovic.briefactions",
-        'version': "1.0.3",
+        'version': (new JsonSlurper().parseText(project.rootProject.file('package.json').text))["version"]
 ]
 
 task clean(type: Delete) {
