@@ -1,0 +1,48 @@
+apply plugin: 'com.jfrog.bintray'
+
+ext.lib = [
+        'name'       : "BriefActions",
+        'gitUrl'     : "https://github.com/vlad-markovic/AndroidBriefActions",
+        'gitRepo'    : "${lib.gitUrl}.git",
+        'description': "Android library for sending and observing non persistent actions such as showing a message; " +
+                "nice readable way to call navigation actions from ViewModel or Activity/Fragment."
+]
+
+group lib.package
+version lib.version
+
+project.ext {
+    mavGitUrl = lib.gitRepo
+    mavProjectName = lib.name
+    mavLibraryLicenses = ["Apache-2.0": 'http://www.apache.org/licenses/LICENSE-2.0.txt']
+    mavLibraryDescription = lib.description
+    mavPublishToMavenLocal = true
+    mavSiteUrl = lib.gitUrl
+}
+
+def properties = new Properties()
+properties.load(new FileInputStream("local.properties"))
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['mavenPublish']
+    configurations = ['archives']
+    override = true
+    pkg {
+        repo = 'maven'
+        name = lib.package
+        description = lib.description
+        publicDownloadNumbers = true
+        licenses = ['Apache-2.0']
+        vcsUrl = lib.gitRepo
+        version {
+            name = lib.version
+            desc = "v${lib.version}"
+            released = new Date()
+            vcsTag = lib.version
+        }
+    }
+}
+
+apply from: 'https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/master/gradle-mavenizer.gradle'
