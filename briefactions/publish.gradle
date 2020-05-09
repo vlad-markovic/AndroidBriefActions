@@ -1,27 +1,20 @@
 apply plugin: 'com.jfrog.bintray'
 
-ext.lib = [
-        'name'       : "BriefActions",
-        'gitUrl'     : "https://github.com/vlad-markovic/AndroidBriefActions",
-        'gitRepo'    : "${lib.gitUrl}.git",
-        'description': "Android library for sending and observing non persistent actions such as showing a message; " +
-                "nice readable way to call navigation actions from ViewModel or Activity/Fragment."
-]
-
 group lib.package
 version lib.version
 
 project.ext {
-    mavGitUrl = lib.gitRepo
-    mavProjectName = lib.name
+    mavGitUrl = "https://github.com/vlad-markovic/AndroidBriefActions.git"
+    mavProjectName = "AndroidBriefActions"
     mavLibraryLicenses = ["Apache-2.0": 'http://www.apache.org/licenses/LICENSE-2.0.txt']
-    mavLibraryDescription = lib.description
+    mavLibraryDescription = "Android library for sending and observing non persistent actions such as showing a message; " +
+            "nice readable way to call navigation actions from ViewModel or Activity/Fragment."
     mavPublishToMavenLocal = true
-    mavSiteUrl = lib.gitUrl
+    mavSiteUrl = "https://github.com/vlad-markovic/AndroidBriefActions"
 }
 
 def properties = new Properties()
-properties.load(new FileInputStream("local.properties"))
+properties.load(project.rootProject.file("local.properties").newDataInputStream())
 
 bintray {
     user = properties.getProperty("bintray.user")
@@ -32,15 +25,15 @@ bintray {
     pkg {
         repo = 'maven'
         name = lib.package
-        description = lib.description
+        description = mavLibraryDescription
         publicDownloadNumbers = true
         licenses = ['Apache-2.0']
-        vcsUrl = lib.gitRepo
+        vcsUrl = mavGitUrl
         version {
-            name = lib.version
-            desc = "v${lib.version}"
+            name = this.version
+            desc = "v$name"
             released = new Date()
-            vcsTag = lib.version
+            vcsTag = desc
         }
     }
 }
