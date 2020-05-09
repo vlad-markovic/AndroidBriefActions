@@ -1,3 +1,7 @@
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)
+
+
 On Android, in combination with LiveData, ViewModel is more than what it might be on some other platforms.
 It also represents an architectural component for easy state management across view lifecycle events.
 When an Activity or Fragment gets recreated, subscribing to observe LiveData gives us the latest value,
@@ -10,9 +14,9 @@ to show when we rotate the device, since the value is preserved in LiveData.
 `BriefAction` type represents these actions and in combination with `LiveAction`,
 helper observers, `ViewModel` and the rest of the pattern, enables consuming of such actions only once.
 
-The beauty of this pattern is the ease of use and the way it nicely and intuitively reads.
+The beauty of this pattern is in its easy use and the way it nicely and intuitively reads.
 
-Use:
+##  Use:
 
  - Extend the library ViewModel when you create your view model.
  - Create your BriefActions (inside VM for scoping or outside).
@@ -69,9 +73,9 @@ class MyActivity : AppCompatActivity() {
         //...
         viewModel.display(ShowMessage("Hello!"))
         
-        viewModel.observe(this, DisplayActionObserver { display ->
-            when (display) {
-                is ShowMessage -> Toast.makeText(this, display.message, Toast.LENGTH_SHORT).show()
+        viewModel.observe(this, DisplayActionObserver { displayAction ->
+            when (val data = displayAction) {
+                is ShowMessage -> Toast.makeText(this, data.message, Toast.LENGTH_SHORT).show()
             }
         })
         
@@ -91,6 +95,7 @@ class MyActivity : AppCompatActivity() {
 ```
 ________________________________________________________________________
 
+## License
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
