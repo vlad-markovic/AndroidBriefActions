@@ -4,7 +4,7 @@ apply from: "$rootProject.projectDir/app/build-android.gradle"
 
 android {
     defaultConfig {
-        applicationId lib.package
+        applicationId "com.vladmarkovic.briefactionssample"
     }
     buildTypes {
         release {
@@ -15,3 +15,9 @@ android {
 }
 
 apply from: "$rootProject.projectDir/app/dependencies-android.gradle"
+
+dependencies {
+    implementation "com.vladmarkovic.briefactions:briefactions:1.0.3"
+
+    implementation "com.google.android.material:material:1.1.0"
+}
