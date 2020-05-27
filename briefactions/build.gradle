@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 
-apply from: "$rootProject.projectDir/app/build-android.gradle"
+apply from: "$rootProject.projectDir/build-android.gradle"
 
 android {
     buildTypes {
