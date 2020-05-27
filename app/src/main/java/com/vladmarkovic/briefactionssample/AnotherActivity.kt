@@ -66,18 +66,15 @@ class AnotherActivity : BaseActivity<ViewModel>() {
     /**
      * Using = instead of {} helps in ensuring all are handled.
      */
-    override fun handleNavigationAction(action: NavigationAction): Any? =
+    override fun handleNavigationAction(action: NavigationAction) =
         when (action) {
             is AnotherScreen -> startActivity(newIntent(this, action.screenTitle))
             is MainScreen -> startActivity(MainActivity.newIntent(this))
             else -> super.handleNavigationAction(action)
         }
 
-    override fun handleMessageAction(action: MessageAction): Any? =
-        when (action) {
-            is MessageAction.BriefSnack -> snackbar = super.handleMessageAction(action) as BaseTransientBottomBar<*>
-            else -> super.handleMessageAction(action)
-        }
+    override fun showBriefSnackbar(action: MessageAction.BriefSnack): BaseTransientBottomBar<*> =
+        super.showBriefSnackbar(action).apply { snackbar = this }
 
     override fun onDestroy() {
         snackbar?.dismiss()

@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.vladmarkovic.briefactions.message.MessageAction
 import com.vladmarkovic.briefactions.message.SnackDisplay
 import com.vladmarkovic.briefactions.message.ToastDisplay
@@ -51,25 +52,29 @@ interface BriefActionHandler {
      *     - when scoping your actions with an interface, throw an exception for else case
      *       to provide a check if all actions are handled.
      */
-    fun handleDisplayAction(action: DisplayAction): Any? =
+    fun handleDisplayAction(action: DisplayAction) =
         when (action) {
             is MessageAction -> handleMessageAction(action)
             else -> throw IllegalArgumentException("Unhandled DisplayAction: $action")
         }
 
-    fun handleNavigationAction(action: NavigationAction): Any? {
+    fun handleNavigationAction(action: NavigationAction) {
         throw IllegalArgumentException("Unhandled NavigationAction: $action")
     }
 
-    fun handleMessageAction(action: MessageAction): Any? =
+    private fun handleMessageAction(action: MessageAction) =
         when (action) {
             is MessageAction.Toast -> {
                 (this as ToastDisplay).showToast(action.message)
             }
             is MessageAction.BriefSnack -> {
-                val snackbar = (this as SnackDisplay).makeSnackbar(action.messageDetails)
-                snackbar.show()
-                snackbar
+                showBriefSnackbar(action); Unit
             }
         }
+
+    fun showBriefSnackbar(action: MessageAction.BriefSnack): BaseTransientBottomBar<*> {
+        val snackbar = (this as SnackDisplay).makeSnackbar(action.messageDetails)
+        snackbar.show()
+        return snackbar
+    }
 }
