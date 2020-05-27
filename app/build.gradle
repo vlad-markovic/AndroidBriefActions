@@ -6,12 +6,6 @@ android {
     defaultConfig {
         applicationId "com.vladmarkovic.briefactionssample"
     }
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
 }
 
 apply from: "$rootProject.projectDir/app/dependencies-android.gradle"
