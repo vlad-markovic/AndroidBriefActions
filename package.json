@@ -2,7 +2,7 @@
   "name": "briefactions",
   "package-name": "com.vladmarkovic.briefactions",
   "project-type": "Android Library",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Android Library for Brief Actions",
   "author": "Vlad Markovic",
   "license": "Apache-2.0"

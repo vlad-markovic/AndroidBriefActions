@@ -17,7 +17,9 @@ android {
 apply from: "$rootProject.projectDir/app/dependencies-android.gradle"
 
 dependencies {
-    implementation "com.vladmarkovic.briefactions:briefactions:1.0.3"
+    implementation project(path: ':briefactions')
 
-    implementation "com.google.android.material:material:1.1.0"
+    implementation "com.vladmarkovic.helper:coroutines:1.0.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5"
 }

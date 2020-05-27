@@ -3,12 +3,11 @@ package com.vladmarkovic.briefactionssample
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.vladmarkovic.briefactions.NavigationAction
 import com.vladmarkovic.briefactions.ViewModel
+import com.vladmarkovic.briefactions.message.MessageAction
 import com.vladmarkovic.briefactionssample.MainViewModel.AnotherScreen
-import com.vladmarkovic.briefactionssample.MessageAction.ShowMessage
-import com.vladmarkovic.briefactionssample.MessageAction.ShowToast
 import kotlinx.android.synthetic.main.activity_another.*
 
 /**
@@ -30,6 +29,8 @@ class AnotherActivity : BaseActivity<ViewModel>() {
     // In real application view models would be injected
     override val viewModel = ViewModel()
 
+    private var snackbar: BaseTransientBottomBar<*>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,11 +45,11 @@ class AnotherActivity : BaseActivity<ViewModel>() {
         }
 
         setOnClickListener(showMessageButton, messageInput) {
-            display(ShowMessage(messageInput.text.toString()))
+            display(MessageAction.BriefSnack(messageInput.text.toString()))
         }
 
         showToastButton.setOnClickListener {
-            display(ShowToast(messageInput.text.toString()))
+            display(MessageAction.Toast(messageInput.text.toString()))
         }
     }
 
@@ -62,22 +63,26 @@ class AnotherActivity : BaseActivity<ViewModel>() {
         viewModel.display(HideKeyboard)
     }
 
-    override fun handleMessageAction(action: MessageAction) =
-        when (action) {
-            is ShowToast -> Toast.makeText(this, action.message, Toast.LENGTH_SHORT).show()
-            else -> super.handleMessageAction(action)
-        }
-
     /**
      * Using = instead of {} helps in ensuring all are handled.
      */
-    override fun handleNavigationAction(action: NavigationAction) =
+    override fun handleNavigationAction(action: NavigationAction): Any? =
         when (action) {
             is AnotherScreen -> startActivity(newIntent(this, action.screenTitle))
             is MainScreen -> startActivity(MainActivity.newIntent(this))
             else -> super.handleNavigationAction(action)
         }
 
+    override fun handleMessageAction(action: MessageAction): Any? =
+        when (action) {
+            is MessageAction.BriefSnack -> snackbar = super.handleMessageAction(action) as BaseTransientBottomBar<*>
+            else -> super.handleMessageAction(action)
+        }
+
+    override fun onDestroy() {
+        snackbar?.dismiss()
+        super.onDestroy()
+    }
 
     object MainScreen : NavigationAction
 }

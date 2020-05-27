@@ -6,7 +6,7 @@ import android.widget.EditText
 
 
 fun EditText.setOnEnterListener(action: () -> Unit) {
-    setOnKeyListener { v, keyCode, event ->
+    setOnKeyListener { _, keyCode, event ->
         // If the event is a key-down event on the "enter" button
         if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
             action()
